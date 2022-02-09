@@ -117,15 +117,19 @@ def addNoISAOptions(parser):
     parser.add_argument("--list-mem-types",
                         action=ListMem, nargs=0,
                         help="List available memory types")
-    parser.add_argument("--mem-type", default="DDR3_1600_8x8",
+    parser.add_argument("--mem-type", default="SimpleMemory",
                         choices=ObjectList.mem_list.get_names(),
                         help="type of memory to use")
+    parser.add_argument("--mem_bandwidth", type=str, default="25.6GiB/s",
+                        help="memory bandwidth")
+    parser.add_argument("--mem_latency", type=str, default="80ns",
+                        help="memory latency")
     parser.add_argument("--mem-channels", type=int, default=1,
                         help="number of memory channels")
     parser.add_argument("--mem-ranks", type=int, default=None,
                         help="number of memory ranks per channel")
     parser.add_argument(
-        "--mem-size", action="store", type=str, default="512MB",
+        "--mem-size", action="store", type=str, default="1GB",
         help="Specify the physical memory size (single memory)")
     parser.add_argument("--enable-dram-powerdown", action="store_true",
                         help="Enable low-power states in DRAMInterface")
@@ -141,17 +145,18 @@ def addNoISAOptions(parser):
                         help="use external port for SystemC TLM cosimulation")
     parser.add_argument("--caches", action="store_true")
     parser.add_argument("--l2cache", action="store_true")
+    parser.add_argument("--l3cache", action="store_true")
     parser.add_argument("--num-dirs", type=int, default=1)
     parser.add_argument("--num-l2caches", type=int, default=1)
     parser.add_argument("--num-l3caches", type=int, default=1)
-    parser.add_argument("--l1d_size", type=str, default="64kB")
-    parser.add_argument("--l1i_size", type=str, default="32kB")
-    parser.add_argument("--l2_size", type=str, default="2MB")
-    parser.add_argument("--l3_size", type=str, default="16MB")
-    parser.add_argument("--l1d_assoc", type=int, default=2)
-    parser.add_argument("--l1i_assoc", type=int, default=2)
-    parser.add_argument("--l2_assoc", type=int, default=8)
-    parser.add_argument("--l3_assoc", type=int, default=16)
+    #parser.add_argument("--l1d_size", type=str, default="64kB") // never change 
+    #parser.add_argument("--l1i_size", type=str, default="32kB") // never change 
+    parser.add_argument("--l2_size", type=str, default="1MB")
+    parser.add_argument("--l3_size", type=str, default="4MB")
+    #parser.add_argument("--l1d_assoc", type=int, default=2) // never change 
+    #parser.add_argument("--l1i_assoc", type=int, default=2) // never change 
+    #parser.add_argument("--l2_assoc", type=int, default=8) // never change 
+    #parser.add_argument("--l3_assoc", type=int, default=16) // never change 
     parser.add_argument("--cacheline_size", type=int, default=64)
 
     # Enable Ruby
