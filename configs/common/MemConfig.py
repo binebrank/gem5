@@ -217,6 +217,11 @@ def config_mem(options, system):
                     print("For elastic trace, over-riding Simple Memory "
                         "latency to 1ns.")
 
+                # Adapt bandwidth and latency for Simple Memory
+                if issubclass(intf, m5.objects.SimpleMemory):
+                    mem_ctrl.bandwidth = options.mem_bandwidth
+                    mem_ctrl.latency = options.mem_latency
+
                 # Create the controller that will drive the interface
                 mem_ctrl = dram_intf.controller()
 
