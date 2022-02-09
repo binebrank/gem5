@@ -97,6 +97,20 @@ def config_cache(options, system):
 
         dcache_class, icache_class, l2_cache_class, walk_cache_class = \
             core.HPI_DCache, core.HPI_ICache, core.HPI_L2, None
+
+#Neoverse N1
+    elif options.cpu_type == "O3_ARM_Neoverse_N1":
+        try:
+            import cores.arm.O3_ARM_Neoverse_N1 as core
+        except:
+            sys.exit(1)
+
+        dcache_class, icache_class, l2_cache_class, \
+            l3_cache_class, walk_cache_class = \
+            core.O3_ARM_Neoverse_N1_DCache, core.O3_ARM_Neoverse_N1_ICache, \
+            core.O3_ARM_Neoverse_N1_L2, core.O3_ARM_Neoverse_N1_L3, \
+            None
+
     else:
         dcache_class, icache_class, l2_cache_class, walk_cache_class = \
             L1_DCache, L1_ICache, L2Cache, None
@@ -114,16 +128,13 @@ def config_cache(options, system):
     if options.l2cache and options.elastic_trace_en:
         fatal("When elastic trace is enabled, do not configure L2 caches.")
 
-    if options.l2cache:
-        # Provide a clock for the L2 and the L1-to-L2 bus here as they
-        # are not connected using addTwoLevelCacheHierarchy. Use the
-        # same clock as the CPUs.
-        system.l2 = l2_cache_class(clk_domain=system.cpu_clk_domain,
-                                   **_get_cache_opts('l2', options))
-
-        system.tol2bus = L2XBar(clk_domain = system.cpu_clk_domain)
-        system.l2.cpu_side = system.tol2bus.mem_side_ports
-        system.l2.mem_side = system.membus.cpu_side_ports
+    
+    # l3 cache
+    system.l3cache = l3_cache_class(clk_domain=system.cpu_clk_domain, **_get_cache_opts('l3', options))
+    system.toL3Bus = L2XBar(clk_domain = system.cpu_clk_domain)
+    system.toL3Bus.width = 64 # 32 x 2 bytes
+    system.l3cache.cpu_side = system.toL3Bus.mem_side_ports
+    system.l3cache.mem_side = system.membus.cpu_side_ports
 
     if options.memchecker:
         system.memchecker = MemChecker()
@@ -159,8 +170,13 @@ def config_cache(options, system):
 
             # When connecting the caches, the clock is also inherited
             # from the CPU in question
-            system.cpu[i].addPrivateSplitL1Caches(icache, dcache,
-                                                  iwalkcache, dwalkcache)
+            # system.cpu[i].addPrivateSplitL1Caches(icache, dcache,
+            #                                      iwalkcache, dwalkcache)
+            l2cache = l2_cache_class(clk_domain=system.cpu_clk_domain,
+                                   **_get_cache_opts('l2', options))
+
+            system.cpu[i].addTwoLevelCacheHierarchy(icache, dcache,
+                    l2cache, iwalkcache, dwalkcache)
 
             if options.memchecker:
                 # The mem_side ports of the caches haven't been connected yet.
@@ -186,15 +202,13 @@ def config_cache(options, system):
                         ExternalCache("cpu%d.dcache" % i))
 
         system.cpu[i].createInterruptController()
-        if options.l2cache:
-            system.cpu[i].connectAllPorts(
-                system.tol2bus.cpu_side_ports,
-                system.membus.cpu_side_ports, system.membus.mem_side_ports)
-        elif options.external_memory_system:
-            system.cpu[i].connectUncachedPorts(
-                system.membus.cpu_side_ports, system.membus.mem_side_ports)
-        else:
-            system.cpu[i].connectBus(system.membus)
+        #if options.l2cache:
+        system.cpu[i].connectAllPorts( system.tol3Bus.cpu_side_ports, system.membus.cpu_side_ports, system.membus.mem_side_ports)
+        #elif options.external_memory_system:
+            #system.cpu[i].connectUncachedPorts(
+                #system.membus.cpu_side_ports, system.membus.mem_side_ports)
+        #else:
+            #system.cpu[i].connectBus(system.membus)
 
     return system
 
