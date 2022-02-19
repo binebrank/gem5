@@ -195,7 +195,7 @@ def addCommonOptions(parser):
     parser.add_argument("--list-cpu-types",
                         action=ListCpu, nargs=0,
                         help="List available CPU types")
-    parser.add_argument("--cpu-type", default="AtomicSimpleCPU",
+    parser.add_argument("--cpu-type", default="O3_ARM_Neoverse_N1",
                         choices=ObjectList.cpu_list.get_names(),
                         help="type of cpu to run with")
     parser.add_argument("--list-bp-types",
@@ -221,26 +221,26 @@ def addCommonOptions(parser):
     parser.add_argument("--list-hwp-types",
                         action=ListHWP, nargs=0,
                         help="List available hardware prefetcher types")
-    parser.add_argument("--l1i-hwp-type", default=None,
-                        choices=ObjectList.hwp_list.get_names(),
-                        help="""
-                        type of hardware prefetcher to use with the L1
-                        instruction cache.
-                        (if not set, use the default prefetcher of
-                        the selected cache)""")
-    parser.add_argument("--l1d-hwp-type", default=None,
-                        choices=ObjectList.hwp_list.get_names(),
-                        help="""
-                        type of hardware prefetcher to use with the L1
-                        data cache.
-                        (if not set, use the default prefetcher of
-                        the selected cache)""")
-    parser.add_argument("--l2-hwp-type", default=None,
-                        choices=ObjectList.hwp_list.get_names(),
-                        help="""
-                        type of hardware prefetcher to use with the L2 cache.
-                        (if not set, use the default prefetcher of
-                        the selected cache)""")
+    # parser.add_argument("--l1i-hwp-type", default=None,
+    #                     choices=ObjectList.hwp_list.get_names(),
+    #                     help="""
+    #                     type of hardware prefetcher to use with the L1
+    #                     instruction cache.
+    #                     (if not set, use the default prefetcher of
+    #                     the selected cache)""")
+    # parser.add_argument("--l1d-hwp-type", default=None,
+    #                     choices=ObjectList.hwp_list.get_names(),
+    #                     help="""
+    #                     type of hardware prefetcher to use with the L1
+    #                     data cache.
+    #                     (if not set, use the default prefetcher of
+    #                     the selected cache)""")
+    # parser.add_argument("--l2-hwp-type", default=None,
+    #                     choices=ObjectList.hwp_list.get_names(),
+    #                     help="""
+    #                     type of hardware prefetcher to use with the L2 cache.
+    #                     (if not set, use the default prefetcher of
+    #                     the selected cache)""")
     parser.add_argument("--checker", action="store_true")
     parser.add_argument("--cpu-clock", action="store", type=str,
                         default='2GHz',
