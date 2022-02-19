@@ -131,9 +131,9 @@ def config_cache(options, system):
     
     # l3 cache
     system.l3cache = l3_cache_class(clk_domain=system.cpu_clk_domain, **_get_cache_opts('l3', options))
-    system.toL3Bus = L2XBar(clk_domain = system.cpu_clk_domain)
-    system.toL3Bus.width = 64 # 32 x 2 bytes
-    system.l3cache.cpu_side = system.toL3Bus.mem_side_ports
+    system.tol3Bus = L2XBar(clk_domain = system.cpu_clk_domain)
+    system.tol3Bus.width = 64 # 32 x 2 bytes
+    system.l3cache.cpu_side = system.tol3Bus.mem_side_ports
     system.l3cache.mem_side = system.membus.cpu_side_ports
 
     if options.memchecker:
