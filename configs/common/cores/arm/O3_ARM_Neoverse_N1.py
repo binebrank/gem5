@@ -31,10 +31,10 @@ class O3_ARM_Neoverse_N1_DCache(Cache):
     response_latency = 1
     tgts_per_mshr = 16
     writeback_clean = False
-    prefetcher = StridePrefetcher()
     size = '64kB' # (1)
     mshrs = 20 # (1)
     assoc = 4 # (1)
+    #prefetcher = StridePrefetcher(degree=16, latency = 1)
 
 class O3_ARM_Neoverse_N1_L2(Cache):
     tag_latency = 5
@@ -46,15 +46,16 @@ class O3_ARM_Neoverse_N1_L2(Cache):
     assoc = 8 # (1)
     size = '1MB' # Graviton2
     writeback_clean= True
+    prefetcher = TaggedPrefetcher(degree=16, latency = 1, queue_size = 16)
 
 class O3_ARM_Neoverse_N1_L3(L3Cache):
     tag_latency = 16 
     data_latency = 16
     response_latency = 4 
     assoc = 16 # (1)
-    size = '4MB' # 1MB per core-duplex but we set this higher due to shared L3 and interconnect
-
-
+    size = '8MB' # 1MB per core-duplex but we set this higher due to shared L3 and interconnect
+    prefetcher = TaggedPrefetcher(degree=16, latency = 1, queue_size = 16)
+    mshrs = 128
 
 # This class refers to FP/ASIMD 0/1 (symbol V in (2) table 3)
 class O3_ARM_Neoverse_N1_FP(FUDesc):
@@ -163,10 +164,10 @@ class O3_ARM_Neoverse_N1(DerivO3CPU):
     backComSize = 5
     forwardComSize = 5
 
-    numROBEntries = 128 # taken from (1)
+    numROBEntries = 128 # taken from (1) 
     numPhysFloatRegs = 128 # taken from (4)
-    numPhysVecRegs = 128 # taken from (4)
-    numPhysIntRegs = 120 # taken from (4)
+    numPhysVecRegs = 128 # taken from (4) 
+    numPhysIntRegs = 120 # taken from (4) 
 
     numIQEntries = 120 # taken from (1)
 
@@ -175,8 +176,8 @@ class O3_ARM_Neoverse_N1(DerivO3CPU):
     switched_out = False
     branchPred = O3_ARM_Neoverse_N1_BP()
 
-    LQEntries = 68 # taken from (1)
-    SQEntries = 72 # taken from (1)
+    LQEntries = 68 # taken from (1) 
+    SQEntries = 72 # taken from (1) 
     LSQDepCheckShift = 0
     LFSTSize = 1024
     SSITSize = 1024
