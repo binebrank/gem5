@@ -250,7 +250,7 @@ global_vars = Variables(global_vars_file, args=ARGUMENTS)
 global_vars.AddVariables(
     ('CC', 'C compiler', environ.get('CC', main['CC'])),
     ('CXX', 'C++ compiler', environ.get('CXX', main['CXX'])),
-    ('CCFLAGS_EXTRA', 'Extra C and C++ compiler flags', ''),
+    ('CCFLAGS_EXTRA', 'Extra C and C++ compiler flags', '-gdwarf-4'),
     ('GEM5PY_CCFLAGS_EXTRA', 'Extra C and C++ gem5py compiler flags', ''),
     ('GEM5PY_LINKFLAGS_EXTRA', 'Extra marshal gem5py flags', ''),
     ('LINKFLAGS_EXTRA', 'Extra linker flags', ''),
