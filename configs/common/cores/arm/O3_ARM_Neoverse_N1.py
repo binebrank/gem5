@@ -46,15 +46,16 @@ class O3_ARM_Neoverse_N1_L2(Cache):
     assoc = 8 # (1)
     size = '1MB' # Graviton2
     writeback_clean= True
-    prefetcher = TaggedPrefetcher(degree=16, latency = 1, queue_size = 32)
+    prefetcher = TaggedPrefetcher(degree=16, latency = 1, queue_size = 16)
 
 class O3_ARM_Neoverse_N1_L3(L3Cache):
-    tag_latency = 16 
-    data_latency = 16
-    response_latency = 4 
+    tag_latency = 48 
+    data_latency = 48
+    response_latency = 16 
     assoc = 16 # (1)
     size = '8MB' # 1MB per core-duplex but we set this higher due to shared L3 and interconnect
-    prefetcher = TaggedPrefetcher(degree=16, latency = 1, queue_size = 32)
+    prefetcher = TaggedPrefetcher(degree=16, latency = 1, queue_size = 16)
+    clusivity = 'mostly_excl'
     mshrs = 128
 
 # This class refers to FP/ASIMD 0/1 (symbol V in (2) table 3)
@@ -79,11 +80,11 @@ class O3_ARM_Neoverse_N1_FP(FUDesc):
                OpDesc(opClass='SimdFloatMisc', opLat=2), # Bunch of relatively non-important insts (vneg)
                OpDesc(opClass='SimdFloatMult', opLat=4), # ASIMD floating point multiply (vmul)
                OpDesc(opClass='SimdFloatMultAcc',opLat=4), # ASIMD floating point multiply accumulate (vmla)
-               OpDesc(opClass='SimdFloatSqrt', opLat=12), # ASIMD floating point square root f64 (vsqrt) // we take average latency
+               OpDesc(opClass='SimdFloatSqrt', opLat=12, pipelined=False), # ASIMD floating point square root f64 (vsqrt) // we take average latency
                OpDesc(opClass='SimdReduceAdd', opLat=10), # SVE reduction, arithmetic, S form (saddv) 
                OpDesc(opClass='SimdReduceAlu', opLat=12), # SVE reduction, logical (andv)
                OpDesc(opClass='SimdReduceCmp', opLat=9), # SVE reduction, arithmetic, S form (smaxv)
-               OpDesc(opClass='SimdFloatReduceAdd', opLat=8), # SVE floating point associative add (fadda) // Same class for faddv, bad Gem5 implementation
+               OpDesc(opClass='SimdFloatReduceAdd', opLat=8, pipelined=False), # SVE floating point associative add (fadda) // Same class for faddv, bad Gem5 implementation
                OpDesc(opClass='SimdFloatReduceCmp', opLat=9), # SVE floating point reduction f64 (fmaxv)
                OpDesc(opClass='FloatAdd', opLat=2), # Aarch64 FP arithmetic (fadd)
                OpDesc(opClass='FloatCmp', opLat=2), # Aarch64 FP compare (fccmpe)
