@@ -111,6 +111,45 @@ def config_cache(options, system):
             core.O3_ARM_Neoverse_N1_L2, core.O3_ARM_Neoverse_N1_L3, \
             None
 
+#Neoverse N1-128
+    elif options.cpu_type == "O3_ARM_Neoverse_N1_128":
+        try:
+            import cores.arm.O3_ARM_Neoverse_N1_128 as core
+        except:
+            sys.exit(1)
+
+        dcache_class, icache_class, l2_cache_class, \
+            l3_cache_class, walk_cache_class = \
+            core.O3_ARM_Neoverse_N1_DCache, core.O3_ARM_Neoverse_N1_ICache, \
+            core.O3_ARM_Neoverse_N1_L2, core.O3_ARM_Neoverse_N1_L3, \
+            None
+
+#Neoverse N1-256
+    elif options.cpu_type == "O3_ARM_Neoverse_N1_256":
+        try:
+            import cores.arm.O3_ARM_Neoverse_N1_256 as core
+        except:
+            sys.exit(1)
+
+        dcache_class, icache_class, l2_cache_class, \
+            l3_cache_class, walk_cache_class = \
+            core.O3_ARM_Neoverse_N1_DCache, core.O3_ARM_Neoverse_N1_ICache, \
+            core.O3_ARM_Neoverse_N1_L2, core.O3_ARM_Neoverse_N1_L3, \
+            None
+
+#Neoverse N1-512
+    elif options.cpu_type == "O3_ARM_Neoverse_N1_512":
+        try:
+            import cores.arm.O3_ARM_Neoverse_N1_512 as core
+        except:
+            sys.exit(1)
+
+        dcache_class, icache_class, l2_cache_class, \
+            l3_cache_class, walk_cache_class = \
+            core.O3_ARM_Neoverse_N1_DCache, core.O3_ARM_Neoverse_N1_ICache, \
+            core.O3_ARM_Neoverse_N1_L2, core.O3_ARM_Neoverse_N1_L3, \
+            None
+
     else:
         dcache_class, icache_class, l2_cache_class, walk_cache_class = \
             L1_DCache, L1_ICache, L2Cache, None
