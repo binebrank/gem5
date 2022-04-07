@@ -120,8 +120,8 @@ def config_cache(options, system):
 
         dcache_class, icache_class, l2_cache_class, \
             l3_cache_class, walk_cache_class = \
-            core.O3_ARM_Neoverse_N1_DCache, core.O3_ARM_Neoverse_N1_ICache, \
-            core.O3_ARM_Neoverse_N1_L2, core.O3_ARM_Neoverse_N1_L3, \
+            core.O3_ARM_Neoverse_N1_DCache_128, core.O3_ARM_Neoverse_N1_ICache_128, \
+            core.O3_ARM_Neoverse_N1_L2_128, core.O3_ARM_Neoverse_N1_L3_128, \
             None
 
 #Neoverse N1-256
@@ -133,8 +133,8 @@ def config_cache(options, system):
 
         dcache_class, icache_class, l2_cache_class, \
             l3_cache_class, walk_cache_class = \
-            core.O3_ARM_Neoverse_N1_DCache, core.O3_ARM_Neoverse_N1_ICache, \
-            core.O3_ARM_Neoverse_N1_L2, core.O3_ARM_Neoverse_N1_L3, \
+            core.O3_ARM_Neoverse_N1_DCache_256, core.O3_ARM_Neoverse_N1_ICache_256, \
+            core.O3_ARM_Neoverse_N1_L2_256, core.O3_ARM_Neoverse_N1_L3_256, \
             None
 
 #Neoverse N1-512
@@ -146,8 +146,21 @@ def config_cache(options, system):
 
         dcache_class, icache_class, l2_cache_class, \
             l3_cache_class, walk_cache_class = \
-            core.O3_ARM_Neoverse_N1_DCache, core.O3_ARM_Neoverse_N1_ICache, \
-            core.O3_ARM_Neoverse_N1_L2, core.O3_ARM_Neoverse_N1_L3, \
+            core.O3_ARM_Neoverse_N1_DCache_512, core.O3_ARM_Neoverse_N1_ICache_512, \
+            core.O3_ARM_Neoverse_N1_L2_512, core.O3_ARM_Neoverse_N1_L3_512, \
+            None
+
+#Neoverse A64FX-512
+    elif options.cpu_type == "O3_ARM_Neoverse_A64FX_512":
+        try:
+            import cores.arm.O3_ARM_Neoverse_A64FX_512 as core
+        except:
+            sys.exit(1)
+
+        dcache_class, icache_class, l2_cache_class, \
+            l3_cache_class, walk_cache_class = \
+            core.O3_ARM_Neoverse_A64FX_DCache_512, core.O3_ARM_Neoverse_A64FX_ICache_512, \
+            core.O3_ARM_Neoverse_A64FX_L2_512, core.O3_ARM_Neoverse_A64FX_L3_512, \
             None
 
     else:

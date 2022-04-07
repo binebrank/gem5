@@ -118,10 +118,16 @@ class O3_ARM_Neoverse_N1_LoadStore(FUDesc):
                OpDesc(opClass='FloatMemWrite') ]
     count = 2 #
 
+class O3_ARM_Neoverse_N1_PredAlu(m5.objects.FUDesc):
+    opList = [ OpDesc(opClass='SimdPredAlu')  ]
+    count = 1
+
+
 class O3_ARM_Neoverse_N1_FUP(FUPool):
     FUList = [O3_ARM_Neoverse_N1_Simple_Int(),
               O3_ARM_Neoverse_N1_Complex_Int(),
               O3_ARM_Neoverse_N1_LoadStore(),
+              O3_ARM_Neoverse_N1_PredAlu(),
               O3_ARM_Neoverse_N1_FP()]
 
 # Bi-Mode Branch Predictor
