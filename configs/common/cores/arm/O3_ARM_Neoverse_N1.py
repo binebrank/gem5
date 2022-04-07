@@ -118,7 +118,7 @@ class O3_ARM_Neoverse_N1_LoadStore(FUDesc):
                OpDesc(opClass='FloatMemWrite') ]
     count = 2 #
 
-class O3_ARM_Neoverse_N1_PredAlu(m5.objects.FUDesc):
+class O3_ARM_Neoverse_N1_PredAlu(FUDesc):
     opList = [ OpDesc(opClass='SimdPredAlu')  ]
     count = 1
 
