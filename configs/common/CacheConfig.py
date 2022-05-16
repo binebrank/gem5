@@ -188,6 +188,13 @@ def config_cache(options, system):
     system.l3cache.cpu_side = system.tol3Bus.mem_side_ports
     system.l3cache.mem_side = system.membus.cpu_side_ports
 
+    # disable l3 prefetcher
+    #if options.disablehwp:
+    #    #system.l3cache.prefetcher = None
+    #    pass
+    #else:
+    #    system.l3cache.prefetcher = TaggedPrefetcher(degree=16, latency = 1, queue_size = 16)
+
     if options.memchecker:
         system.memchecker = MemChecker()
 
@@ -226,6 +233,13 @@ def config_cache(options, system):
             #                                      iwalkcache, dwalkcache)
             l2cache = l2_cache_class(clk_domain=system.cpu_clk_domain,
                                    **_get_cache_opts('l2', options))
+
+            # disable l2 prefetcher
+            if options.disablehwp:
+                #l2cache.prefetcher = None
+                pass
+            else:
+                l2cache.prefetcher = TaggedPrefetcher(degree=32, latency = 1, queue_size = 32)
 
             system.cpu[i].addTwoLevelCacheHierarchy(icache, dcache,
                     l2cache, iwalkcache, dwalkcache)

@@ -37,7 +37,7 @@ class O3_ARM_Neoverse_A64FX_L2_512(Cache):
     assoc = 8 # (1)
     size = '1MB' # Graviton2
     writeback_clean= True
-    prefetcher = TaggedPrefetcher(degree=16, latency = 1, queue_size = 16)
+    # do this in cache config prefetcher = TaggedPrefetcher(degree=16, latency = 1, queue_size = 16)
 
 class O3_ARM_Neoverse_A64FX_L3_512(L3Cache):
     tag_latency = 48 
@@ -45,7 +45,7 @@ class O3_ARM_Neoverse_A64FX_L3_512(L3Cache):
     response_latency = 16 
     assoc = 16 # (1)
     size = '8MB' # 1MB per core-duplex but we set this higher due to shared L3 and interconnect
-    prefetcher = TaggedPrefetcher(degree=16, latency = 1, queue_size = 16)
+    # do this in cache config prefetcher = TaggedPrefetcher(degree=16, latency = 1, queue_size = 16)
     clusivity = 'mostly_excl'
     mshrs = 128
 

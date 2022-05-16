@@ -137,6 +137,7 @@ def addNoISAOptions(parser):
                         help="Memory channels interleave")
 
     parser.add_argument("--memchecker", action="store_true")
+    parser.add_argument("--disablehwp", action="store_true")
 
     # Cache Options
     parser.add_argument("--external-memory-system", type=str,
