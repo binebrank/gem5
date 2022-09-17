@@ -1,0 +1,20 @@
+This is a collection of scripts that I used for my phd thesis.
+You have to modify them for your needs. I used them to run:
+- STREAM benchmark
+- Tinymembench
+- NPB benchmark suite
+- OpenBLAS (DGEMM)
+- GROMACS (nonbonded benchmark and RNAse use case)
+- GPAW (bmgs_fd and construct_density extracted kernels, see https://gitlab.jsc.fz-juelich.de/brank1/gpaw-benchmarks)
+- Minife
+
+Gem5 models are located in gem5/configs/common/cores/arm/.
+Main models:
+- O3_ARM_Neoverse_N1.py This is the main model that resembles Neoverse N1 backend
+
+- O3_ARM_Neoverse_N1_128.py Same as Neoverse N1 but the sum reduction latency is changed to account for different SVE length
+- O3_ARM_Neoverse_N1_256.py Same as Neoverse N1 but the sum reduction latency is changed to account for different SVE length
+- O3_ARM_Neoverse_N1_512.py Same as Neoverse N1 but the sum reduction latency is changed to account for different SVE length
+- O3_ARM_Neoverse_A64FX_512.py This is the same as N1 but the latencies of instructions have been modified to resemble the A64FX backend (basically much bigger latencies)
+
+
