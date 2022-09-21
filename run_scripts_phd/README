@@ -18,3 +18,4 @@ Main models:
 - O3_ARM_Neoverse_A64FX_512.py This is the same as N1 but the latencies of instructions have been modified to resemble the A64FX backend (basically much bigger latencies)
 
 
+In order to change the number of SVE units, change (for example) line 98 'count = 2' in configs/common/cores/arm/O3_ARM_Neoverse_N1.py.
